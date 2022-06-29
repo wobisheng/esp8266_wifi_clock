@@ -19,11 +19,11 @@ LedControl lc = LedControl( 12, 14, 15, 4 );
 
 WiFiUDP ntpUDP;
 NTPClient TimeClient( ntpUDP, "ntp1.aliyun.com", 60 * 60 * 8, 30 * 60 * 1000 );
-Metro  game_tick   = Metro( 500 );
-Metro  time_tick   = Metro( 60000 );
-Metro  weather_tick   = Metro( 3600000 );
+Metro  game_tick   = Metro( 500 );//游戏时间周期
+Metro  time_tick   = Metro( 60000 );//时间更新周期60s
+Metro  weather_tick   = Metro( 3600000 );//天气检查周期1h
 
-byte game_mode = 0;
+byte game_mode = 0;//0号屏模式
 
 struct snake_Node
     {
@@ -32,7 +32,7 @@ struct snake_Node
     };
 ArduinoQueue<snake_Node> body(65);
 
-class snake_game
+class snake_game//蛇类
 {
   private:
     bool snake_eat_s = false;
@@ -220,7 +220,7 @@ class snake_game
     }
 };
 
-class tetris_game
+class tetris_game//俄罗斯方块类
 {
   private:
     bool tetris_Map[8][8] = { 0 };
@@ -519,7 +519,8 @@ class tetris_game
     }
 };
 
-class maze_game {
+class maze_game//走迷宫类
+{
   private:
       int maze_Map[MAX+1][MAX + 1] = {0};
       int maze_temp[MAX+1][MAX+ 1] = {0};
@@ -713,16 +714,22 @@ class maze_game {
   }
 };
 
-tetris_game tetris;
+tetris_game tetris;//创建游戏对象
 snake_game snake;
 maze_game maze;
 
+void heart_beat();
 int get_weather();
 void Auto_time();
 void handleRoot();
+void handlemaze();
+void handlesnake();
+void handletetris();
+void handleheart();
 void handlesleep();
 void handlelumi();
 void handleTiming();
+void handleWeather();
 void handlereset();
 void handleWifi();
 void handleAmap();
@@ -735,13 +742,13 @@ void draw_on_screen();
 void draw_on_screen(int temp_font[],int screen_num);
 
 int minu  = 0,hour = 0;
-String wifi_information[2] = {"",""};
-String Amap_information[2] = {"",""};
-String ap_information[2] = {"",""};
-String Word_information = "HELLO WORLD";
-int sleep_information[2] = {24,-1};
+String wifi_information[2] = {"",""};//wifi信息
+String Amap_information[2] = {"",""};//高德开发者信息
+String ap_information[2] = {"",""};//AP信息
+String Word_information = "HELLO WORLD";//字符动画默认字符串
+int sleep_information[2] = {24,24};//休眠设定
 bool sleep_status = true;
-int draw_temp[8] = {0};
+int draw_temp[8] = {0};//用于滚动动画
 const char  * host  = "restapi.amap.com";
 
 int NUMBER[10][8] =
