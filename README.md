@@ -3,7 +3,7 @@
  32*4共阴点阵屏
  ESP8266
 ### 接线
- DIN:12 CLK:14 CS:14
+ DIN:12 CLK:14 CS:15
 ### 安装库文件列表
  <LedControl.h>
  <ArduinoQueue.h>
